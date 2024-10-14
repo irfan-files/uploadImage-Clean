@@ -1,0 +1,29 @@
+.ImageViewDownload {
+  text-align: center;
+  padding: 20px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.image-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+a {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #007bff;
+}
