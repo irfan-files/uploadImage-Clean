@@ -1,4 +1,5 @@
 const BASE_URL = "http://103.183.75.171:3001";
+// const BASE_URL = "http://localhost:3001";
 
 const apiRoutes = {
   getAllImages: `${BASE_URL}/images`,

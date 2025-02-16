@@ -7,6 +7,31 @@ import apiRoutes from "./apiRoutes";
 const App = () => {
   const [imageData, setImageData] = useState(null);
 
+  const retryDownload = async (url, filename, retries = 20) => {
+    let attempt = 0;
+    let success = false;
+
+    while (attempt < retries) {
+      try {
+        const response = await axios.post(apiRoutes.download, {
+          url,
+          filename,
+        });
+        console.log(response.data.message);
+        success = true;
+        break;
+      } catch (error) {
+        attempt++;
+        console.error(`Attempt ${attempt} to download image failed: ${error.message}`);
+        if (attempt >= retries) {
+          console.error(`Failed to download image after ${retries} attempts.`);
+        }
+      }
+    }
+
+    return success;
+  };
+
   const downloadAllImages = async () => {
     if (!imageData) {
       alert("No image data available. Please upload a JSON file first.");
@@ -16,14 +41,8 @@ const App = () => {
     let failedDownloads = [];
 
     for (let i = 0; i < images.length; i++) {
-      try {
-        const response = await axios.post(apiRoutes.download, {
-          url: images[i],
-          filename: `${i + 1}.jpg`,
-        });
-        console.log(response.data.message);
-      } catch (error) {
-        console.error(`Error downloading image ${i + 1}: ${error.message}`);
+      const success = await retryDownload(images[i], `${i + 1}.jpg`);
+      if (!success) {
         failedDownloads.push(images[i]);
       }
     }
@@ -40,14 +59,11 @@ const App = () => {
     let failedDownloads = [];
 
     for (let i = 0; i < selectedImages.length; i++) {
-      try {
-        const response = await axios.post(apiRoutes.downloadSelectedImages, {
-          url: selectedImages[i].url,
-          filename: selectedImages[i].filename,
-        });
-        console.log(response.data.message);
-      } catch (error) {
-        console.error(`Error downloading image ${i + 1}: ${error.message}`);
+      const success = await retryDownload(
+        selectedImages[i].url,
+        selectedImages[i].filename
+      );
+      if (!success) {
         failedDownloads.push(selectedImages[i].url);
       }
     }

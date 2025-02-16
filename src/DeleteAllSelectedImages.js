@@ -7,7 +7,7 @@ const DeleteAllSelectedImages = () => {
 
   const handleDeleteAll = async () => {
     try {
-      const response = await axios.delete(apiRoutes.DeleteAllSelectedImages);
+      const response = await axios.delete(apiRoutes.deleteAllSelectedImages);
       setMessage(response.data.message);
     } catch (error) {
       setMessage("Error deleting files");

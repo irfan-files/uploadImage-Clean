@@ -7,7 +7,20 @@ const DeleteAllImages = () => {
 
   const handleDeleteAll = async () => {
     try {
-      const response = await axios.delete(apiRoutes.DeleteAllImages);
+      // Log the URL before making the request
+      console.log("API URL:", apiRoutes.deleteAllImages);
+
+      // Log request details
+      console.log("Request details:", {
+        url: apiRoutes.deleteAllImages,
+        method: 'delete',
+        headers: {
+          // Include any headers you're sending, if applicable
+        },
+      });
+
+      // Make the delete request
+      const response = await axios.delete(apiRoutes.deleteAllImages);
       setMessage(response.data.message);
     } catch (error) {
       setMessage("Error deleting files");
